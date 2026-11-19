@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Academia do Cinema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<style>
+/* Projeção — editorial brutalism after studio sites: giant grotesk headlines, image-first sections,
+   hairlines only above section titles, white / ink / brand-color backgrounds alternating. */
+:root{
+  --white:#ffffff;
+  --paper:#f3f1ec;      /* off-white for alternating light sections */
+  --ink:#0e0e0e;        /* dark sections and text on light */
+  --gray:#8a8a86;       /* secondary text, years, meta */
+  --amber:#f5b800;      /* projector light: main brand accent */
+  --violet:#8b00c9;     /* brand Roxo Claro, used as one full-color section */
+  --c-cursos:#0096d6; --c-filmes:#f2301b; --c-locadora:#ff5a00; --c-blog:#5bb534;
+  --sans:"Instrument Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --pad:clamp(16px,4.2vw,80px);
+  --max:1640px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img,svg{max-width:100%}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+p{margin:0}
+h1,h2,h3{margin:0;font-weight:500;text-wrap:balance}
+.display{font-size:clamp(40px,8.2vw,136px);line-height:.9;letter-spacing:-.045em}
+h1,.h1{font-size:clamp(48px,6.4vw,104px);line-height:.92;letter-spacing:-.04em}
+h2,.h2{font-size:clamp(34px,4.4vw,68px);line-height:.96;letter-spacing:-.035em}
+h3,.h3{font-size:clamp(21px,1.7vw,27px);line-height:1.1;letter-spacing:-.015em}
+.lead{font-size:clamp(18px,1.45vw,22px);line-height:1.45;max-width:46ch}
+.label{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.gray{color:var(--gray)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.sec{padding:clamp(64px,8vw,128px) 0}
+.sec.tight{padding-top:clamp(40px,5vw,72px)}
+.dark{background:var(--ink);color:var(--white)}
+.dark .gray{color:#9a9a96}
+.paper{background:var(--paper)}
+.violet{background:var(--violet);color:var(--white)}
+.amber{background:var(--amber);color:var(--ink)}
+/* section title: the only rule on the page sits above it */
+.stitle{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,3vw,44px)}
+.stitle .left{display:grid;gap:10px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:500 15px/1 var(--sans);text-transform:uppercase;letter-spacing:.01em;text-decoration:none;padding:15px 20px;border:1.5px solid currentColor;background:transparent;color:inherit;cursor:pointer;transition:background .2s,color .2s}
+.btn::after{content:"→"}
+.btn:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.dark .btn:hover,.over .btn:hover,.violet .btn:hover{background:var(--white);color:var(--ink);border-color:var(--white)}
+.btn.solid{background:var(--white);color:var(--ink);border-color:var(--white)}
+.btn.solid:hover{background:var(--amber);border-color:var(--amber)}
+.btn.black{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.btn.black:hover{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.tlink{font-size:16px;font-weight:500;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:2px}
+.tlink::after{content:" →"}
+
+/* header */
+.note{background:var(--amber);font-family:var(--mono);font-size:11px;text-align:center;padding:6px 16px;letter-spacing:.03em}
+header.site{position:sticky;top:0;z-index:50;background:var(--white);color:var(--ink);border-bottom:1px solid #e6e4df}
+body.home header.site{position:absolute;left:0;right:0;top:27px;background:transparent;color:var(--white);border-bottom:0}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:76px;max-width:none;padding:0 clamp(16px,2vw,32px)}
+.menu{display:flex;gap:clamp(12px,1.6vw,28px);list-style:none;margin:0;padding:0}
+.menu a,.nav-right a.nl{font-size:14px;font-weight:500;text-transform:uppercase;text-decoration:none;letter-spacing:.01em}
+.menu a:hover,.nav-right a.nl:hover,.menu a.on{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.logo{display:block;width:96px;color:inherit;justify-self:center}
+.logo svg{display:block;width:100%;height:auto}
+.nav-right{display:flex;gap:20px;justify-content:flex-end;align-items:center}
+.nav-right .btn{padding:11px 14px;font-size:13px}
+.burger{display:none;background:none;border:1.5px solid currentColor;color:inherit;padding:8px 12px;font:500 13px var(--sans);text-transform:uppercase;justify-self:start}
+@media (max-width:1060px){
+  .nav{grid-template-columns:auto 1fr auto}
+  .burger{display:block}
+  .logo{grid-column:2}
+  .menu{display:none;position:absolute;top:76px;left:0;right:0;flex-direction:column;gap:0;background:var(--white);color:var(--ink);padding:8px var(--pad) 24px;border-bottom:1px solid #e6e4df}
+  .menu.open{display:flex}
+  .menu a{display:block;font-size:28px;text-transform:none;padding:8px 0;letter-spacing:-.02em}
+  .nav-right a.nl{display:none}
+  .nav-right .btn{padding:9px 10px;font-size:12px}
+  .nav-right .btn::after{display:none}
+}
+
+/* images (scene placeholders until the real photography arrives) */
+.img{position:relative;overflow:hidden;background:#111;isolation:isolate}
+.img>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.img::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.img .cap{position:absolute;left:14px;bottom:12px;z-index:2;color:rgba(255,255,255,.86)}
+.r-16x9{aspect-ratio:16/9}.r-4x5{aspect-ratio:4/5}.r-2x3{aspect-ratio:2/3}.r-3x4{aspect-ratio:3/4}.r-1{aspect-ratio:1}.r-21{aspect-ratio:2.2/1}.r-3x2{aspect-ratio:3/2}
+
+/* hero */
+.hero{position:relative;height:clamp(600px,88vh,960px);color:var(--white)}
+.hero .slide{position:absolute;inset:0;opacity:0;transition:opacity .8s;pointer-events:none}
+.hero .slide.on{opacity:1;pointer-events:auto}
+.hero .img{position:absolute;inset:0}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0,transparent 22%,transparent 45%,rgba(0,0,0,.65) 100%);z-index:1}
+.hero .copy{position:absolute;left:0;right:0;bottom:clamp(28px,4vw,56px);z-index:2;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}
+.hero .copy .side{display:grid;gap:18px;justify-items:start;max-width:320px}
+.hero .dots{position:absolute;right:var(--pad);top:120px;z-index:3;display:flex;gap:8px}
+.hero .dots button{width:36px;height:3px;border:0;background:rgba(255,255,255,.4);cursor:pointer;padding:0}
+.hero .dots button.on{background:#fff}
+@media (max-width:800px){.hero .copy{grid-template-columns:1fr}.hero{height:auto;min-height:640px}}
+
+/* numbers */
+.numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.numbers b{display:block;font-weight:500;font-size:clamp(48px,5.6vw,92px);line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.numbers span{display:block;margin-top:10px}
+@media (max-width:900px){.numbers{grid-template-columns:repeat(2,1fr);row-gap:40px}}
+
+/* two columns */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,120px)}
+@media (max-width:900px){.two{grid-template-columns:1fr}}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:36px 32px;margin-top:40px}
+.pillars div{display:grid;gap:8px;align-content:start}
+.pillars p{font-size:15px}
+@media (max-width:600px){.pillars{grid-template-columns:1fr}}
+
+/* gallery: generous, few sizes */
+.gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.gallery figure{margin:0;display:grid;gap:8px}
+.gallery .w7{grid-column:span 7}.gallery .w5{grid-column:span 5}.gallery .w4{grid-column:span 4}.gallery .w8{grid-column:span 8}
+.gallery .img{height:clamp(220px,27vw,460px)!important;aspect-ratio:auto!important;min-height:0!important}
+@media (max-width:800px){.gallery>*{grid-column:span 6!important}.gallery .w7,.gallery .w8{grid-column:span 12!important}.gallery .img{height:200px!important}}
+.tabs{display:flex;gap:22px;flex-wrap:wrap}
+.tabs button{background:none;border:0;padding:0 0 3px;font:500 15px var(--sans);color:var(--gray);cursor:pointer;border-bottom:1.5px solid transparent}
+.tabs button.on,.tabs button:hover{color:inherit;border-bottom-color:currentColor}
+
+/* card rows: image, then title left / meta right (studio catalog pattern) */
+.cards{display:grid;gap:clamp(24px,2.4vw,40px) clamp(16px,1.8vw,28px)}
+.c2{grid-template-columns:repeat(2,1fr)}.c3{grid-template-columns:repeat(3,1fr)}.c4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:1000px){.c3,.c4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.c2,.c3{grid-template-columns:1fr}.c4{grid-template-columns:1fr 1fr;gap:28px 12px}.c4 .card .row{flex-direction:column;gap:2px}.c4 .card .row .gray{font-size:14px}.c4 .card p{font-size:13px}}
+.card{display:grid;gap:12px;text-decoration:none;align-content:start}
+.card .img{transition:opacity .25s}
+.card:hover .img{opacity:.88}
+.card .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.card .row .gray{font-size:clamp(18px,1.6vw,24px);white-space:nowrap}
+.card p{font-size:15px;color:var(--gray);max-width:44ch}
+.dark .card p{color:#a8a8a4}
+
+/* rails */
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(240px,22vw,340px);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail>*{scroll-snap-align:start}
+.arrows{display:flex;gap:20px}
+.arrows button{background:none;border:0;color:inherit;font-size:30px;line-height:1;cursor:pointer;padding:4px}
+.arrows button:hover{color:var(--amber)}
+.play{position:absolute;left:14px;top:14px;z-index:3;display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--ink);border:0;padding:8px 12px;font:500 12px var(--mono);text-transform:uppercase;cursor:pointer}
+.play::before{content:"";border-left:9px solid currentColor;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.bigplay{position:absolute;inset:0;margin:auto;z-index:3;width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.95);border:0;cursor:pointer;display:grid;place-items:center}
+.bigplay::after{content:"";border-left:24px solid var(--ink);border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:6px}
+
+/* partners */
+.logos{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.logos div{aspect-ratio:2.2/1;display:grid;place-items:center;background:var(--paper);color:var(--gray)}
+@media (max-width:800px){.logos{grid-template-columns:repeat(3,1fr)}}
+
+/* page header */
+.phead{padding:clamp(56px,7vw,112px) 0 clamp(32px,3.5vw,56px)}
+.phead .wrap{display:grid;gap:18px}
+.crumbs{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--gray)}
+.crumbs a{text-decoration:none}.crumbs a:hover{color:var(--ink)}
+
+/* full-bleed feature with info columns (course, film, locadora) */
+.feature{position:relative;color:var(--white)}
+.feature .img{height:clamp(520px,78vh,860px)}
+.feature .shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.72));z-index:1}
+.feature .info{position:absolute;left:0;right:0;bottom:clamp(28px,4vw,56px);z-index:2}
+.feature .info .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:32px;align-items:end}
+.feature h1{font-size:clamp(44px,5vw,88px)}
+.kv{display:grid;gap:14px}
+.kv div{display:grid;gap:2px}
+.kv b{font-weight:500;font-size:19px}
+@media (max-width:900px){.feature .info .wrap{grid-template-columns:1fr}.feature .img{height:auto;min-height:760px}}
+
+/* lists */
+.list{display:grid}
+.list>*{display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:baseline;padding:18px 0;border-top:1px solid #dcdad5}
+.dark .list>*{border-top-color:#2c2c2c}
+.list .n{font-family:var(--mono);font-size:13px;color:var(--gray)}
+details.mod{border-top:1px solid #dcdad5}
+details.mod:last-child{border-bottom:1px solid #dcdad5}
+details.mod summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:72px 1fr auto;gap:16px;align-items:baseline;padding:22px 0}
+details.mod summary::-webkit-details-marker{display:none}
+details.mod summary::after{content:"+";font-size:28px;line-height:1;grid-column:3;grid-row:1}
+details.mod[open] summary::after{content:"−"}
+details.mod summary .h{grid-column:2;font-size:14px;color:var(--gray)}
+details.mod ul{margin:0 0 26px 88px;padding:0;list-style:none;display:grid;gap:8px;font-size:17px}
+@media (max-width:600px){details.mod ul{margin-left:0}details.mod summary{grid-template-columns:44px 1fr auto}}
+
+/* plan */
+.plan{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.plan figure{margin:0;display:grid;gap:14px}
+.plan figure p{font-size:15px;color:#a8a8a4}
+@media (max-width:900px){.plan{grid-template-columns:1fr 1fr}}
+
+/* schedule (same system as the Figma file) */
+.legend{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:24px}
+.legend span{display:flex;align-items:center;gap:8px;font-size:15px}
+.sw{width:14px;height:14px;display:inline-block}
+.sched{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sess{padding:18px;display:grid;gap:4px;min-height:190px;align-content:start}
+.sess .d{font-size:56px;line-height:1;letter-spacing:-.05em;font-weight:500}
+.sess .t{font-size:17px;font-weight:500;line-height:1.2;margin-top:6px}
+.sess .m{display:flex;justify-content:space-between;margin-top:auto;padding-top:14px}
+.pres{background:var(--amber)}.onl{background:#9ad6f3}.set{background:var(--c-locadora)}
+.totals{display:flex;gap:32px;flex-wrap:wrap;margin-top:20px}
+@media (max-width:900px){.sched{grid-template-columns:repeat(2,1fr)}}
+
+/* forms */
+form.f{display:grid;gap:18px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:600px){.r2{grid-template-columns:1fr}}
+label{display:grid;gap:6px}
+label span{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--gray)}
+input,select,textarea{font:400 17px var(--sans);color:inherit;background:transparent;border:0;border-bottom:1.5px solid currentColor;padding:10px 0;border-radius:0}
+select option{color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:none;border-bottom-color:var(--amber)}
+.ok{display:none;padding:14px 16px;background:var(--amber);color:var(--ink);font-size:15px}
+.ok.show{display:block}
+
+/* film */
+.sheet{display:grid;grid-template-columns:repeat(3,1fr);gap:24px 32px}
+.sheet div{display:grid;gap:2px}
+.sheet b{font-weight:500;font-size:18px}
+@media (max-width:700px){.sheet{grid-template-columns:1fr 1fr}}
+.poster{display:flex;flex-direction:column;justify-content:space-between;padding:22px;color:#fff}
+.poster>*:not(svg){position:relative;z-index:2}
+.poster .pt{font-size:clamp(36px,3.6vw,52px);line-height:.9;letter-spacing:-.04em;font-weight:500}
+
+/* equipment */
+.eq .img{background:#1a1a1a}
+.status{font-family:var(--mono);font-size:12px;text-transform:uppercase}
+.status.ok-s::before,.status.out::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#3fae2a}
+.status.out::before{background:var(--c-filmes)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,56px)}
+.steps div{display:grid;gap:10px;align-content:start}
+.steps .n{font-size:clamp(56px,5vw,88px);line-height:1;letter-spacing:-.05em}
+@media (max-width:800px){.steps{grid-template-columns:1fr}}
+.req{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,56px)}
+.req ul{margin:10px 0 0;padding-left:18px;display:grid;gap:6px}
+@media (max-width:800px){.req{grid-template-columns:1fr}}
+
+/* article */
+.article{max-width:740px;margin:0 auto;display:grid;gap:24px;font-size:19px;line-height:1.7}
+.article .pull{font-size:clamp(28px,3vw,40px);line-height:1.12;letter-spacing:-.03em;font-weight:500}
+.article figure{margin:0}
+.article figcaption{margin-top:10px}
+.tags{display:flex;gap:10px;flex-wrap:wrap}
+.tags span{font-family:var(--mono);font-size:12px;text-transform:uppercase;padding:6px 10px;border:1px solid currentColor}
+
+/* contact */
+.clist{display:grid;gap:26px}
+.clist div{display:grid;gap:4px}
+.clist b{font-weight:500;font-size:clamp(20px,1.8vw,26px)}
+
+/* footer */
+footer.site{background:var(--ink);color:var(--white);padding:clamp(56px,6vw,96px) 0 32px}
+.fcols{display:grid;grid-template-columns:repeat(3,1fr) 1.4fr;gap:32px}
+.fcols ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.fcols a{text-decoration:none;font-size:clamp(22px,2vw,30px);letter-spacing:-.02em}
+.fcols a:hover{color:var(--amber)}
+.news{display:grid;gap:12px;align-content:start}
+.news form{display:flex;border:1px solid #fff}
+.news input{flex:1;border:0;padding:14px;color:#fff}
+.news button{white-space:nowrap;background:#fff;color:var(--ink);border:0;padding:0 18px;font:500 14px var(--sans);text-transform:uppercase;cursor:pointer}
+.fbig{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end;border-top:1px solid #333;margin-top:56px;padding-top:40px}
+.fbig .logo{width:clamp(180px,22vw,340px);justify-self:end;color:#fff}
+.fbottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px;color:#8f8f8b}
+@media (max-width:900px){.fcols{grid-template-columns:1fr 1fr}.fbig{grid-template-columns:1fr}.fbig .logo{justify-self:start}}
+
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mt40{margin-top:40px}.mt64{margin-top:64px}
+.stack{display:grid;gap:20px;align-content:start}
+main{animation:in .4s ease}
+@keyframes in{from{opacity:.5}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+ 
+:root{--amber:#f6c742;--paper:#f5f2e9;--ink:#141612}
+body{background:#faf9f5}.btn,.nav-right .btn{border-radius:5px;text-transform:none;font-weight:600}.tlink:after,.btn:after{content:none}
+header.site,body.home header.site{position:relative;top:auto;background:#141612;color:#faf7eb;border-bottom:1px solid #34362e}.nav{height:76px;padding:0 var(--pad);grid-template-columns:1fr auto 1fr}.nav .logo{grid-row:1;grid-column:1;justify-self:start;width:88px}.menu{grid-column:2;grid-row:1;align-items:center;gap:28px}.menu li:has([href="#inicio"]){order:-1}.menu a,.nav-right a.nl{font-size:15px;text-transform:none}.menu a.on{text-decoration:none;color:var(--amber)}.nav-right{grid-column:3}.nav-right .btn,.btn.solid{background:var(--amber);border-color:var(--amber);color:#141612}.burger{border-radius:4px}
+.wrap{max-width:1600px}.hero{height:clamp(500px,64vh,720px);min-height:0;isolation:isolate;background:#13140e;overflow:hidden}.herophoto{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,16,11,.94),rgba(16,19,11,.76) 30%,rgba(16,15,9,.14) 76%),url('images/projecao.jpg') right 49% /cover;filter:sepia(.38)}.heroContent{position:relative;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding-bottom:20px}.heroContent h1{font-family:Georgia,serif;font-size:clamp(64px,7.6vw,124px);line-height:.93;letter-spacing:-.059em;color:#fff9e9;font-weight:400;margin:22px 0}.heroContent em{color:#f6cc58;font-weight:400}.heroContent p{max-width:455px;color:#e8e6dc;font-size:18px;line-height:1.5}.kicker{display:flex;align-items:center;gap:12px;font:500 13px var(--mono);letter-spacing:.13em}.heroContent .kicker{color:#f6cc58}.actions{display:flex;align-items:center;gap:25px;margin-top:27px}.heroLink{color:white;text-underline-offset:5px;font-size:16px}.filmstrip{position:absolute;bottom:0;left:0;right:0;height:17px;background:#181914}.filmstrip:after{content:"";display:block;margin-top:5px;height:7px;background:repeating-linear-gradient(90deg,transparent 0 13px,#b6a982 13px 23px,transparent 23px 37px);opacity:.6}
+.milestones{background:#f5f2e9;padding:35px 0 40px}.milestones .kicker{margin-bottom:22px}.numbers{gap:0}.numbers>div{border-left:1px solid #d5d1c6;padding-left:26px}.numbers>div:first-child{border:0;padding-left:0}.numbers b{font:400 clamp(43px,4.5vw,77px)/1 Georgia,serif;letter-spacing:-.06em}.numbers span{font-size:15px;color:#54554b;margin-top:6px}.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.prototype{font-size:14px;margin:22px 0;color:#aea99e}
+@media(max-width:1060px){.nav{grid-template-columns:auto 1fr auto;gap:16px}.nav .logo{grid-column:2;justify-self:start}.menu{grid-column:auto}.menu a.on{color:#875e00}.burger{grid-column:1;grid-row:1}.heroContent h1{font-size:clamp(56px,9vw,94px)}}
+@media(max-width:900px){.numbers{grid-template-columns:repeat(3,1fr);gap:22px}.numbers>div{border:0;padding:0}}
+@media(max-width:600px){.hero{height:490px}.heroContent h1{font-size:clamp(48px,11vw,66px)}.heroContent p{font-size:16px;max-width:88%}.herophoto{background-position:65% center}.numbers span{font-size:14px}.milestones{padding:28px 0}.nav{height:64px}.menu{top:64px}.nav .logo{width:73px}}
+@media(max-width:760px){.two[style*="grid-template-columns"]{grid-template-columns:minmax(0,1fr)!important}}.poster>.photo{position:absolute!important;z-index:-1!important;filter:brightness(.5)}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="menu">Menu</button>
+    <ul class="menu" id="menu">
+      <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#filmes">Filmes</a></li>
+      <li><a href="#inicio">Início</a></li>
+      <li><a href="#locadora">Locadora</a></li>
+
+      <li><a href="https://www.febrafe.com" target="_blank" rel="noopener">Festival</a></li>
+    </ul>
+    <a href="#inicio" class="logo" aria-label="Academia do Cinema, início" id="logo"></a>
+    <div class="nav-right"><a href="#contato" class="nl">Contato</a><a href="#curso-direcao" class="btn">Inscreva-se</a></div>
+  </div>
+</header>
+<main id="app"></main>
+<footer class="site">
+  <div class="wrap">
+    <div class="fcols">
+      <ul><li><a href="#cursos">Cursos</a></li><li><a href="#filmes">Filmes</a></li><li><a href="#talentos">Talentos</a></li><li><a href="#locadora">Locadora</a></li></ul>
+      <ul><li><a href="#blog">Blog</a></li><li><a href="https://www.febrafe.com" target="_blank" rel="noopener">Festival</a></li><li><a href="#contato">Contato</a></li></ul>
+      <ul><li><a href="https://linktr.ee/academiadocinema" target="_blank" rel="noopener">Canais oficiais</a></li></ul>
+      <div class="news"><span class="label">Receba a abertura de novas turmas</span><form data-form><label style="flex:1;display:flex"><span class="sr" style="position:absolute;left:-9999px">E-mail</span><input id="n-mail" type="email" placeholder="E-mail" required></label><button type="submit">Inscrever-se</button></form><div class="ok">E-mail registrado neste protótipo.</div></div>
+    </div>
+    <div class="fbig">
+      <p class="h2" style="max-width:14ch">Cinema se aprende fazendo.</p>
+      <a href="#inicio" class="logo" aria-label="Academia do Cinema" id="logo2"></a>
+    </div>
+    <p class="prototype">Edição demonstrativa · dados, turmas e imagens ilustrativos.</p><div class="fbottom label"><span>© 2026 Academia do Cinema · Brasília, DF</span><span>Termos de uso · Privacidade</span></div>
+  </div>
+</footer>
+
+<script>
+/* ---------- logo ---------- */
+const LOGO=`<svg viewBox="0 0 443 243" aria-hidden="true"><g fill="currentColor"><rect width="379" height="18"/><rect y="225" width="379" height="18"/><rect width="18" height="243"/><rect x="361" width="18" height="49"/><rect x="361" y="188" width="18" height="55"/><text x="98" y="117" font-family="Montserrat,Arial,sans-serif" font-weight="700" font-size="62">academia</text><text x="98" y="174" font-family="Montserrat,Arial,sans-serif" font-weight="700" font-size="62">do cinema</text></g></svg>`;
+document.getElementById('logo').innerHTML=LOGO;document.getElementById('logo2').innerHTML=LOGO;
+
+/* ---------- scene placeholders: painted film stills, swapped for real photos later ---------- */
+const PAL={amber:['#1b0f06','#6e3c12','#ffd38a'],blue:['#050a12','#14385a','#9bd6ff'],red:['#140405','#661009','#ff9a7a'],violet:['#0b0612','#401366','#dcb0ff'],green:['#05100a','#1d4a2c','#c2f5a8'],orange:['#170802','#7a2c06','#ffbb85'],gray:['#0c0c0d','#3b3b40','#efe9dd']};
+let SID=0;
+function scene(type,p='amber'){
+  const photos={set:p==='amber'?'location':'cinematographer',aula:p==='red'?'filming':'workshop',sala:'screen',equip:'equipment',claquete:'slate',projetor:'camera',palco:'cinema'};
+  if(photos[type])return `<img class="photo" src="images/${photos[type]}.jpg" alt="" loading="lazy">`;
+  const [a,b,c]=PAL[p]||PAL.amber;const id='s'+(SID++);const K='#070707';
+  const bg=`<defs><linearGradient id="${id}g" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="${b}"/><stop offset="1" stop-color="${a}"/></linearGradient><radialGradient id="${id}r" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="${c}" stop-opacity=".95"/><stop offset=".45" stop-color="${c}" stop-opacity=".25"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient><linearGradient id="${id}b" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="${c}" stop-opacity=".75"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></linearGradient></defs><rect width="1600" height="1000" fill="url(#${id}g)"/>`;
+  const person=(x,s=1)=>`<g transform="translate(${x} ${1000-560*s}) scale(${s})" fill="${K}"><circle cx="60" cy="55" r="48"/><path d="M0 560V200q0-80 60-80t60 80v360z"/></g>`;
+  let body='';
+  if(type==='set'){body=`<ellipse cx="1220" cy="300" rx="520" ry="360" fill="url(#${id}r)"/><rect x="1150" y="210" width="150" height="110" fill="${c}" opacity=".9"/><path d="M1225 320v680M1225 1000l-80 0M1225 1000l80 0" stroke="${K}" stroke-width="14"/>${person(300,1.05)}<g fill="${K}"><rect x="700" y="470" width="230" height="130" rx="10"/><rect x="930" y="500" width="90" height="70"/><rect x="760" y="430" width="60" height="44"/></g><path d="M815 600l-120 400M815 600l0 400M815 600l120 400" stroke="${K}" stroke-width="18"/>${person(1010,.95)}${person(1400,1.1)}<path d="M1450 470L1620 230" stroke="${K}" stroke-width="12"/>`}
+  if(type==='sala'){body=`<rect x="250" y="70" width="1100" height="470" fill="${c}" opacity=".92"/><ellipse cx="800" cy="300" rx="900" ry="520" fill="url(#${id}r)" opacity=".7"/>${[0,1,2].map(r=>Array.from({length:9},(_,i)=>`<g fill="${K}"><circle cx="${110+i*175+(r%2)*80}" cy="${650+r*120}" r="${38+r*8}"/><rect x="${55+i*175+(r%2)*80}" y="${690+r*120}" width="${110+r*16}" height="400" rx="40"/></g>`).join('')).join('')}`}
+  if(type==='projetor'){body=`<path d="M1500 170L0 260L0 980Z" fill="url(#${id}b)" opacity=".85"/><rect x="1420" y="120" width="180" height="120" fill="${K}"/><circle cx="1460" cy="180" r="34" fill="${c}"/>${Array.from({length:40},(_,i)=>`<circle cx="${(i*397)%1400+50}" cy="${(i*233)%600+280}" r="${1+i%3}" fill="${c}" opacity=".6"/>`).join('')}${[0,1].map(r=>Array.from({length:8},(_,i)=>`<g fill="${K}"><circle cx="${120+i*200+r*90}" cy="${780+r*110}" r="46"/><rect x="${60+i*200+r*90}" y="${825+r*110}" width="120" height="300" rx="40"/></g>`).join('')).join('')}`}
+  if(type==='claquete'){body=`<ellipse cx="1150" cy="250" rx="700" ry="500" fill="url(#${id}r)"/><g transform="rotate(-6 800 600)"><rect x="380" y="430" width="840" height="520" fill="${K}"/><rect x="380" y="340" width="840" height="90" fill="${K}"/>${Array.from({length:6},(_,i)=>`<path d="M${420+i*140} 340l70 0-60 90-70 0z" fill="${c}" opacity=".85"/>`).join('')}<g stroke="${c}" stroke-opacity=".55" stroke-width="5">${[540,640,740,840].map(y=>`<path d="M430 ${y}H1170"/>`).join('')}<path d="M800 540V940"/></g></g>`}
+  if(type==='retrato'){body=`<ellipse cx="1050" cy="380" rx="620" ry="520" fill="url(#${id}r)"/><g fill="${K}"><ellipse cx="800" cy="430" rx="190" ry="230"/><path d="M380 1000q40-330 420-330t420 330z"/><rect x="730" y="600" width="140" height="120"/></g><path d="M985 330q30 100-10 220" stroke="${c}" stroke-width="10" fill="none" opacity=".7"/>`}
+  if(type==='palco'){body=`<rect x="380" y="90" width="840" height="380" fill="${c}" opacity=".9"/><ellipse cx="800" cy="280" rx="800" ry="500" fill="url(#${id}r)" opacity=".8"/><rect x="0" y="560" width="1600" height="60" fill="${K}" opacity=".85"/>${Array.from({length:22},(_,i)=>`<circle cx="${i*76+20}" cy="${700+(i%3)*30}" r="40" fill="${K}"/>`).join('')}<rect y="730" width="1600" height="300" fill="${K}"/><path d="M420 700l20-150M1180 690l-25-160" stroke="${K}" stroke-width="22" stroke-linecap="round"/>`}
+  if(type==='equip'){body=`<ellipse cx="800" cy="420" rx="760" ry="520" fill="url(#${id}r)" opacity=".75"/><g fill="${K}"><rect x="420" y="330" width="560" height="380" rx="26"/><rect x="520" y="270" width="200" height="70" rx="10"/></g><circle cx="1110" cy="520" r="230" fill="${K}"/><circle cx="1110" cy="520" r="170" fill="${a}" stroke="${c}" stroke-opacity=".5" stroke-width="6"/><circle cx="1110" cy="520" r="90" fill="${K}"/><circle cx="1070" cy="480" r="26" fill="${c}" opacity=".75"/>`}
+  if(type==='aula'){body=`<rect x="160" y="120" width="760" height="430" fill="${c}" opacity=".88"/><ellipse cx="540" cy="330" rx="700" ry="460" fill="url(#${id}r)" opacity=".6"/>${person(1080,1)}<path d="M1150 560l220-120" stroke="${K}" stroke-width="20" stroke-linecap="round"/>${Array.from({length:5},(_,i)=>`<g fill="${K}"><circle cx="${140+i*230}" cy="800" r="54"/><rect x="${70+i*230}" y="855" width="140" height="200" rx="50"/></g>`).join('')}`}
+  return `<svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${bg}${body}</svg>`;
+}
+const img=(type,p,ratio='',cap='',style='')=>`<div class="img ${ratio}"${style?` style="${style}"`:''}>${scene(type,p)}${cap?`<span class="cap label">${cap}</span>`:''}</div>`;
+
+/* ---------- example data ---------- */
+const courses=[
+ {id:'direcao',name:'Direção Cinematográfica',s:'set',p:'amber',short:'Da decupagem à direção de elenco, com um curta realizado em equipe.',dur:'12 semanas',fmt:'Presencial + online',start:'09 mar',st:'Inscrições abertas'},
+ {id:'fotografia',name:'Direção de Fotografia',s:'equip',p:'blue',short:'Luz, câmera e linguagem visual na prática de set.',dur:'10 semanas',fmt:'Presencial',start:'16 mar',st:'Inscrições abertas'},
+ {id:'roteiro',name:'Roteiro para Cinema',s:'claquete',p:'gray',short:'Estrutura, personagem e diálogo até o tratamento final.',dur:'8 semanas',fmt:'Online',start:'06 abr',st:'Em breve'},
+ {id:'montagem',name:'Montagem e Edição',s:'aula',p:'red',short:'Ritmo, corte e finalização para curtas e documentários.',dur:'8 semanas',fmt:'Presencial',start:'13 abr',st:'Em breve'},
+ {id:'som',name:'Som para Cinema',s:'retrato',p:'violet',short:'Captação direta, edição de som e mixagem.',dur:'6 semanas',fmt:'Presencial',start:'04 mai',st:'Lista de espera'},
+ {id:'producao',name:'Produção Audiovisual',s:'palco',p:'orange',short:'Orçamento, cronograma, ordem do dia e equipe.',dur:'8 semanas',fmt:'Presencial + online',start:'11 mai',st:'Lista de espera'}
+];
+const films=[
+ {id:'a-ultima-sessao',t:'A Última Sessão',y:2025,s:'sala',p:'amber',f:'Ficção · 15 min'},
+ {id:'cidade-satelite',t:'Cidade Satélite',y:2025,s:'set',p:'blue',f:'Documentário · 22 min'},
+ {id:'vermelho-cerrado',t:'Vermelho Cerrado',y:2024,s:'retrato',p:'red',f:'Suspense · 18 min'},
+ {id:'fora-de-quadro',t:'Fora de Quadro',y:2024,s:'claquete',p:'gray',f:'Comédia · 12 min'},
+ {id:'noite-em-plano-aberto',t:'Noite em Plano Aberto',y:2024,s:'projetor',p:'violet',f:'Drama · 20 min'},
+ {id:'eixo',t:'Eixo',y:2023,s:'palco',p:'green',f:'Ficção científica · 16 min'},
+ {id:'luz-de-servico',t:'Luz de Serviço',y:2023,s:'set',p:'orange',f:'Drama · 14 min'},
+ {id:'plano-sequencia',t:'Plano-Sequência',y:2023,s:'retrato',p:'blue',f:'Ficção · 11 min'}
+];
+const team=[['Marina Souza','Direção','amber','Diretora de curtas premiados, conduz o laboratório de atores.'],['João Ribeiro','Fotografia','blue','15 anos de set em publicidade e longas.'],['Ana Lima','Som','violet','Som direto e mixagem, especialista em pós.'],['Rafael Costa','Produção','orange','Produtor executivo dos sets práticos.']];
+const talents=[['lucas-almeida','Lucas Almeida','Direção','amber'],['beatriz-nunes','Beatriz Nunes','Roteiro','gray'],['caio-mendes','Caio Mendes','Fotografia','blue'],['julia-prado','Júlia Prado','Arte','red'],['pedro-santos','Pedro Santos','Som','violet'],['larissa-faria','Larissa Faria','Produção','orange'],['tiago-rocha','Tiago Rocha','Montagem','green'],['camila-reis','Camila Reis','Assistência de direção','amber']];
+const posts=[
+ {id:'bastidores-cidade-satelite',t:'Filmar a cidade às 5 da manhã',d:'02 nov 2026',tg:'Bastidores',s:'set',p:'blue',x:'Como a turma de Fotografia planejou a luz natural do documentário de conclusão.'},
+ {id:'febrafe-2026',t:'Filmes da Academia no FEBRAFE',d:'24 out 2026',tg:'Festival',s:'palco',p:'amber',x:'Curtas produzidos em sala chegam à tela grande do festival.'},
+ {id:'set-simulado',t:'Um dia de set simulado',d:'10 out 2026',tg:'Curso',s:'claquete',p:'orange',x:'Ordem do dia, claquete e café às 6h, passo a passo.'},
+ {id:'roteiro-curta',t:'5 erros no primeiro roteiro de curta',d:'28 set 2026',tg:'Curso',s:'aula',p:'gray',x:'O que os instrutores mais corrigem nas primeiras versões.'}
+];
+const equipment=[['Câmeras','Blackmagic Pocket 6K Pro','Kit com 3 baterias e 2 cartões',1,'blue'],['Câmeras','Sony FX3','Corpo, cage e monitor 5"',0,'gray'],['Lentes','Kit prime 24 · 35 · 50 · 85 mm','Montagem EF, com follow focus',1,'amber'],['Iluminação','Kit 3 LEDs bicolor 60 W','Tripés, sombrinhas e softboxes',1,'orange'],['Áudio','Gravador Zoom F6','Com 2 lapelas sem fio',0,'violet'],['Áudio','Shotgun e vara boom','Com zeppelin e pelúcia',1,'green'],['Acessórios','Tripé com cabeça fluida','Até 8 kg',1,'gray'],['Acessórios','Slider 80 cm','Com manivela',1,'red']];
+const quotes=[['Carla M.','Direção','Saí do curso com um curta pronto e uma equipe.','amber'],['Diego F.','Fotografia','Aprendi a iluminar errando no set, com quem sabe.','blue'],['Renata P.','Roteiro','Meu roteiro mudou de verdade em oito semanas.','gray'],['Igor T.','Som','Nunca mais vou subestimar o som direto.','violet'],['Luana S.','Produção','A ordem do dia virou minha melhor amiga.','orange'],['Breno A.','Montagem','Entendi o corte como linguagem.','red']];
+
+/* ---------- shared blocks ---------- */
+const stitle=(title,right='',sub='')=>`<div class="stitle"><div class="left">${sub?`<span class="label">${sub}</span>`:''}<h2>${title}</h2></div>${right}</div>`;
+const arrows=id=>`<div class="arrows"><button aria-label="Anterior" data-rail="${id}" data-dir="-1">‹</button><button aria-label="Próximo" data-rail="${id}" data-dir="1">›</button></div>`;
+const videos=(id,list)=>`<div class="rail" id="${id}">${list.map((q,i)=>`<figure class="card" style="margin:0"><div style="position:relative">${img(['retrato','set','aula','retrato','palco','equip'][i%6],q[3],'r-3x4')}${q[4] ? `<video controls playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%" src="${q[4]}"></video>` : ''}</div><div class="row"><h3>${q[0]}</h3><span class="gray" style="font-size:16px">${q[1]}</span></div><p>“${q[2]}”</p></figure>`).join('')}</div>`;
+const partners=(t='Parceiros e patrocinadores')=>`<section class="sec tight"><div class="wrap">${stitle(t)}<div class="logos">${[1,2,3,4,5,6].map(i=>`<div class="label">Logo ${String(i).padStart(2,'0')}</div>`).join('')}</div></div></section>`;
+const crumbs=c=>`<nav class="crumbs" aria-label="Você está em">${c.map((x,i)=>i<c.length-1?`<a href="#${x[1]}">${x[0]}</a> / `:`<span>${x[0]}</span>`).join('')}</nav>`;
+const phead=(title,lead,c)=>`<section class="phead"><div class="wrap">${crumbs(c)}<h1>${title}</h1>${lead?`<p class="lead gray">${lead}</p>`:''}</div></section>`;
+const tabs=(items,attr)=>`<div class="tabs" ${attr}>${items.map((t,i)=>`<button class="${i?'':'on'}" data-v="${t}">${t}</button>`).join('')}</div>`;
+
+/* ---------- pages ---------- */
+function home(){
+  const c=courses[0];
+  return `
+  <section class="hero" aria-label="Curso em destaque">
+    <div class="herophoto"></div><div class="heroContent wrap"><span class="kicker">CURSO EM DESTAQUE</span>
+    <h1>Direção<br><em>Cinematográfica</em></h1>
+    <p>Da primeira ideia ao último corte. Aprenda a dirigir um curta-metragem na prática, em equipe.</p>
+    <div class="actions"><a href="#curso-direcao" class="btn solid">Inscreva-se</a><a href="#cursos" class="heroLink">Explorar cursos</a></div></div>
+    <div class="filmstrip" aria-hidden="true"></div>
+  </section>
+  <section class="milestones"><div class="wrap"><p class="kicker">A ACADEMIA EM NÚMEROS</p><div class="numbers">
+    ${[['480','alunos formados'],['36','cursos realizados'],['52','filmes produzidos'],['8','anos de atuação'],['14','projetos em circulação']].map(n=>`<div><b>${n[0]}</b><span>${n[1]}</span></div>`).join('')}
+  </div></div></section>
+
+  <section class="sec dark"><div class="wrap two">
+    <div class="stack"><span class="label gray">Sobre a Academia</span><h2>Cinema se aprende fazendo.</h2>${img('aula','amber','r-3x2','Aula de direção · 2025','margin-top:20px')}</div>
+    <div class="stack" style="align-content:end"><p class="lead">A Academia do Cinema forma profissionais para todas as funções do set, com aulas conduzidas por quem trabalha no mercado e um filme ao fim de cada curso.</p>
+      <div class="pillars">${[['Missão','Preparar cineastas e técnicos para o mercado audiovisual.'],['Visão','Ser referência na formação para o cinema de entretenimento.'],['Pedagogia','Turmas que viram equipes, com funções que se alternam.'],['Prática','Cada turma roteiriza, filma e finaliza um curta.']].map(p=>`<div><span class="label gray">${p[0]}</span><p>${p[1]}</p></div>`).join('')}</div>
+      <a href="#contato" class="tlink mt24" style="width:max-content">Fale com a coordenação</a></div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    ${stitle('Projetos em ação',tabs(['Tudo','Aulas','Sets','Laboratório','Festival','Bastidores'],'id="gtabs"'))}
+    <div class="gallery" id="gallery">
+      ${[['w7','set','amber','Sets','r-16x9'],['w5','aula','blue','Aulas',''],['w4','equip','gray','Laboratório',''],['w8','palco','violet','Festival','r-21'],['w5','claquete','orange','Bastidores',''],['w7','sala','red','Festival','r-16x9']].map((g,i)=>`<figure class="${g[0]}" data-cat="${g[3]}">${img(g[1],g[2],g[4]||'','',g[4]?'':'height:100%;min-height:240px')}<figcaption class="label gray">${g[3]} · turma 202${4+i%2}</figcaption></figure>`).join('')}
+    </div>
+  </div></section>
+
+  <section class="sec paper"><div class="wrap">
+    ${stitle('Equipe e instrutores')}
+    <div class="cards c4">${team.map((t,i)=>`<div class="card">${img('retrato',t[2],'r-3x4')}<div class="row"><h3>${t[0]}</h3><span class="gray">${t[1]}</span></div><p>${t[3]}</p></div>`).join('')}</div>
+  </div></section>
+
+  <section class="sec dark"><div class="wrap">
+    ${stitle('Quem passou por aqui',arrows('rail-home'),'Depoimentos')}
+    ${videos('rail-home',quotes)}
+  </div></section>
+
+  <section class="sec amber"><div class="wrap two" style="align-items:end">
+    <h2 class="h1">Seu próximo filme começa aqui.</h2>
+    <div class="stack" style="justify-items:start"><p class="lead">Direção Cinematográfica · 12 semanas · 20 vagas por turma.</p><a href="#curso-direcao" class="btn black">Garantir minha vaga</a></div>
+  </div></section>
+  ${partners()}`;
+}
+
+function cursos(){
+  return phead('Cursos','Cursos práticos para cada função do cinema. Todos terminam com um filme realizado pela turma.',[['Início','inicio'],['Cursos','cursos']])+`
+  <section class="sec tight" style="padding-top:0"><div class="wrap">
+    <div style="margin-bottom:32px">${tabs(['Todos','Presencial','Online','Inscrições abertas'],'data-filter="courses"')}</div>
+    <div class="cards c3" id="courses">${courses.map(c=>`<a class="card" href="#curso-${c.id}" data-tags="Todos|${c.fmt.includes('Presencial')?'Presencial':''}|${c.fmt.includes('nline')?'Online':''}|${c.st}">${img(c.s,c.p,'r-4x5','')}<span class="label" style="color:${c.st==='Inscrições abertas'?'var(--ink)':'var(--gray)'}">${c.st} · início ${c.start}</span><div class="row"><h3 class="h2" style="font-size:clamp(28px,2.6vw,40px)">${c.name}</h3></div><p>${c.short}</p><span class="tlink" style="width:max-content">Saiba mais e inscreva-se</span></a>`).join('')}</div>
+  </div></section>
+  <section class="sec dark"><div class="wrap">
+    ${stitle('Alunos de todos os cursos','','Depoimentos')}
+    <div class="cards c3">${quotes.slice(0,3).map((q,i)=>`<figure class="card" style="margin:0">${img(['aula','set','claquete'][i],q[3],'r-3x2')}<blockquote class="h3" style="margin:0">“${q[2]}”</blockquote><span class="label gray">${q[0]} · ${q[1]}</span></figure>`).join('')}</div>
+  </div></section>`;
+}
+
+function curso(id){
+  const c=courses.find(x=>x.id===id)||courses[0];
+  const [intro,modules]=({"direcao": ["A direção articula roteiro, atuação e escolhas de câmera. A turma trabalha uma cena do primeiro ensaio à exibição.", [["Linguagem e decupagem", "Ponto de vista", "Storyboard"], ["Direção de atores", "Leitura de mesa", "Marcação de cena"], ["Set e equipe", "Ordem do dia", "Continuidade"], ["Curta-metragem", "Filmagem", "Exibição comentada"]]], "fotografia": ["Experimentos de exposição, contraste e movimento ajudam a construir uma proposta visual para uma cena.", [["Câmera e exposição", "Leitura do fotômetro", "Latitude e contraste"], ["Lentes e movimento", "Distância focal", "Composição em movimento"], ["Desenho de luz", "Luz natural", "Modelagem com refletores"], ["Projeto de fotografia", "Mapa de luz", "Teste de câmera"]]], "roteiro": ["Da primeira ideia ao tratamento de um curta, cada encontro combina leitura coletiva, escrita e reescrita.", [["Premissa e conflito", "Logline", "Argumento"], ["Personagem", "Desejo e obstáculo", "Arco dramático"], ["Estrutura", "Escaleta", "Construção de cena"], ["Diálogos e revisão", "Subtexto", "Leitura do tratamento"]]], "montagem": ["O mesmo material filmado ganha sentidos diferentes na montagem. A turma compara versões e finaliza uma sequência.", [["Organização de material", "Ingestão", "Sincronização"], ["Ritmo e continuidade", "Pontos de corte", "Raccord"], ["Construção narrativa", "Elipse", "Montagem paralela"], ["Finalização", "Revisão de som", "Exportação"]]], "som": ["A turma acompanha o som da captação de diálogos à mixagem, com exercícios de escuta e gravação.", [["Escuta e acústica", "Ruído de ambiente", "Perspectiva sonora"], ["Microfonação", "Lapela", "Posicionamento do boom"], ["Som direto", "Ganho e monitoramento", "Relatório de som"], ["Pós-produção", "Edição de diálogo", "Mixagem da cena"]]], "producao": ["A turma transforma um roteiro em plano de produção, organiza recursos e acompanha as decisões de uma filmagem.", [["Desenho de produção", "Leitura do roteiro", "Levantamento de recursos"], ["Planejamento", "Orçamento", "Cronograma"], ["Preparação de set", "Equipe e fornecedores", "Ordem do dia"], ["Encerramento", "Prestação de contas", "Entrega de materiais"]]]})[c.id];
+  const ses=({"direcao": [["09", "mar", "Abertura e linguagem", "pres", "4h"], ["12", "mar", "Decupagem e storyboard", "onl", "2h"], ["16", "mar", "Direção de atores I", "pres", "4h"], ["19", "mar", "Aula com especialista", "onl", "2h"], ["23", "mar", "Direção de atores II", "pres", "4h"], ["28", "mar", "Set simulado", "set", "8h"], ["04", "abr", "Pré-produção do curta", "pres", "4h"], ["11", "abr", "Filmagem do curta", "set", "10h"]], "fotografia": [["16", "mar", "Leitura do fotômetro", "pres", "4h"], ["23", "mar", "Latitude e contraste", "pres", "4h"], ["30", "mar", "Distância focal", "pres", "4h"], ["06", "abr", "Composição em movimento", "pres", "4h"], ["13", "abr", "Luz natural", "pres", "4h"], ["20", "abr", "Modelagem com refletores", "pres", "4h"], ["27", "abr", "Mapa de luz", "pres", "4h"], ["04", "mai", "Teste de câmera", "pres", "4h"]], "roteiro": [["06", "abr", "Logline", "onl", "2h"], ["13", "abr", "Argumento", "onl", "2h"], ["20", "abr", "Desejo e obstáculo", "onl", "2h"], ["27", "abr", "Arco dramático", "onl", "2h"], ["04", "mai", "Escaleta", "onl", "2h"], ["11", "mai", "Construção de cena", "onl", "2h"], ["18", "mai", "Subtexto", "onl", "2h"], ["25", "mai", "Leitura do tratamento", "onl", "2h"]], "montagem": [["13", "abr", "Ingestão", "pres", "4h"], ["20", "abr", "Sincronização", "pres", "4h"], ["27", "abr", "Pontos de corte", "pres", "4h"], ["04", "mai", "Raccord", "pres", "4h"], ["11", "mai", "Elipse", "pres", "4h"], ["18", "mai", "Montagem paralela", "pres", "4h"], ["25", "mai", "Revisão de som", "pres", "4h"], ["01", "jun", "Exportação", "pres", "4h"]], "som": [["04", "mai", "Ruído de ambiente", "pres", "4h"], ["07", "mai", "Perspectiva sonora", "pres", "4h"], ["11", "mai", "Lapela", "pres", "4h"], ["14", "mai", "Posicionamento do boom", "pres", "4h"], ["18", "mai", "Ganho e monitoramento", "pres", "4h"], ["21", "mai", "Relatório de som", "pres", "4h"], ["25", "mai", "Edição de diálogo", "pres", "4h"], ["28", "mai", "Mixagem da cena", "pres", "4h"]], "producao": [["11", "mai", "Leitura do roteiro", "onl", "2h"], ["18", "mai", "Levantamento de recursos", "pres", "4h"], ["25", "mai", "Orçamento", "onl", "2h"], ["01", "jun", "Cronograma", "pres", "4h"], ["08", "jun", "Equipe e fornecedores", "onl", "2h"], ["15", "jun", "Ordem do dia", "pres", "4h"], ["22", "jun", "Prestação de contas", "onl", "2h"], ["29", "jun", "Entrega de materiais", "pres", "4h"]]})[c.id];
+  const fm={pres:'Presencial',onl:'Online',set:'Set prático'};
+  return `
+  <section class="feature">${img(c.s,c.p)}<div class="shade"></div>
+    <div class="info"><div class="wrap">
+      <div class="stack"><span class="label">${c.st}</span><h1>${c.name}</h1></div>
+      <div class="kv"><div><span class="label">Início</span><b>${c.start} 2026</b></div><div><span class="label">Duração</span><b>${c.dur} · ${c.fmt}</b></div><div><span class="label">Vagas</span><b>20 por turma</b></div></div>
+      <a href="#inscricao" data-scroll="inscricao" class="btn solid">Inscreva-se</a>
+    </div></div>
+  </section>
+  <div class="wrap" style="padding-top:18px">${crumbs([['Início','inicio'],['Cursos','cursos'],[c.name,'curso-'+c.id]])}</div>
+
+  <section class="sec"><div class="wrap two">
+    <div class="stack"><span class="label gray">Sobre o curso</span><h2>${c.short}</h2></div>
+    <div class="stack"><p class="lead">${intro}</p>
+      <div class="list mt24">${modules.map(m=>m.slice(1).join(" e ")).map((o,i)=>`<div><span class="n">0${i+1}</span><span>${o}</span><span></span></div>`).join('')}</div></div>
+  </div></section>
+
+  <section class="sec tight" style="padding-top:0"><div class="wrap">
+    ${stitle('Quem já fez este curso','','Turmas anteriores')}
+    <div class="gallery">${[['w8','set','amber','r-16x9'],['w4','retrato','blue',''],['w4','retrato','orange',''],['w8','sala','gray','r-21']].map((g,i)=>`<figure class="${g[0]}">${img(g[1],g[2],g[3],'',g[3]?'':'height:100%;min-height:260px')}<figcaption class="label gray">Turma ${2022+i}</figcaption></figure>`).join('')}</div>
+  </div></section>
+
+  <section class="sec dark"><div class="wrap">
+    ${stitle('O que você vai viver','','Plano do curso')}
+    <div class="plan">${[['Produção de curta-metragem','A turma roteiriza, filma e finaliza um curta exibido em mostra.','sala','amber'],['Aulas com especialistas','Encontros com profissionais convidados do mercado.','aula','blue'],['Set simulado','Um dia inteiro de set com equipamento e funções reais.','claquete','orange'],['Material didático','Apostila, modelos de documentos e filmes de referência.','equip','gray']].map(p=>`<figure>${img(p[2],p[3],'r-4x5')}<h3>${p[0]}</h3><p>${p[1]}</p></figure>`).join('')}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    ${stitle('Conteúdo programático','<span class="label gray">4 módulos</span>')}
+    ${modules.map((m,i)=>`<details class="mod"${i?'':' open'}><summary><span class="label gray">0${i+1}</span><span class="h3">${m[0]}</span><span class="h">2 tópicos</span></summary><ul>${m.slice(1).map(x=>`<li>${x}</li>`).join('')}</ul></details>`).join('')}
+  </div></section>
+
+  <section class="sec paper"><div class="wrap">
+    ${stitle('Cronograma','','Datas dos encontros')}
+    <div class="legend">${[...new Set(ses.map(x=>x[3]))].map(k=>`<span><i class="sw ${k}"></i>${fm[k]} · ${[...new Set(ses.filter(x=>x[3]===k).map(x=>x[4]))].join(" / ")}</span>`).join("")}</div>
+    <div class="sched">${ses.map(s=>`<div class="sess ${s[3]}"><span class="label">${s[1]} 2026</span><span class="d">${s[0]}</span><span class="t">${s[2]}</span><span class="m label"><span>${fm[s[3]]}</span><span>${s[4]}</span></span></div>`).join('')}</div>
+    <div class="totals label"><span>8 encontros</span><span>${ses.reduce((n,s)=>n+parseInt(s[4]),0)}h nos encontros listados</span><a class="tlink" href="cronogramas/${c.id}.svg" download>Baixar cronograma editável (SVG)</a></div>
+  </div></section>
+
+  <section class="sec dark"><div class="wrap">
+    ${stitle('Alunos deste curso',arrows('rail-course'),'Depoimentos em vídeo')}
+    ${videos('rail-course',quotes.slice(0,5))}
+  </div></section>
+
+  <section class="sec" id="inscricao"><div class="wrap two">
+    <div class="stack"><span class="label gray">Local, data e horário</span><h2>Garanta sua vaga</h2>
+      <div class="clist mt24"><div><span class="label gray">Local</span><b>${c.fmt==="Online"?"Sala virtual":"Sede da Academia do Cinema · Brasília, DF"}</b></div><div><span class="label gray">Datas</span><b>${c.start} de 2026 · calendário ilustrativo</b></div><div><span class="label gray">Horário</span><b>A confirmar com a coordenação</b></div><div><span class="label gray">Investimento</span><b>Valor e condições de pagamento</b></div></div></div>
+    <form class="f" data-form style="align-self:end">
+      <div class="r2"><label for="i-nome"><span>Nome completo</span><input id="i-nome" required></label><label for="i-mail"><span>E-mail</span><input id="i-mail" type="email" required></label></div>
+      <div class="r2"><label for="i-tel"><span>WhatsApp</span><input id="i-tel" inputmode="tel"></label><label for="i-exp"><span>Experiência com audiovisual</span><select id="i-exp"><option>Nenhuma</option><option>Já participei de sets</option><option>Trabalho na área</option></select></label></div>
+      <button type="submit" class="btn black" style="width:max-content">Enviar inscrição</button>
+      <div class="ok" role="status">Inscrição registrada neste protótipo. No site publicado, ela segue para a coordenação.</div>
+    </form>
+  </div></section>
+  ${partners('Parceiros deste curso')}`;
+}
+
+function filmes(){
+  return phead('Filmes','Curtas realizados pelas turmas e exibidos em mostras e festivais.',[['Início','inicio'],['Filmes','filmes']])+`
+  <section class="sec tight" style="padding-top:0"><div class="wrap">
+    <div style="margin-bottom:32px">${tabs(['Todos','2025','2024','2023'],'data-filter="films"')}</div>
+    <div class="cards c4" id="films">${films.map(f=>`<a class="card" href="#filme-${f.id}" data-tags="Todos|${f.y}">${img(f.s,f.p,'r-2x3')}<div class="row"><h3>${f.t}</h3><span class="gray">${f.y}</span></div></a>`).join('')}</div>
+  </div></section>`;
+}
+function filme(id){
+  const f=films.find(x=>x.id===id)||films[0];
+  return `<section class="dark" style="padding-top:clamp(24px,3vw,48px)"><div class="wrap">
+    ${crumbs([['Início','inicio'],['Filmes','filmes'],[f.t,'filme-'+f.id]])}
+    <div style="position:relative;margin-top:18px">${img(f.s,f.p,'r-16x9')}${f.video ? `<video controls playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%" src="${f.video}"></video>` : '<span class="label" style="position:absolute;bottom:16px;left:16px;background:#111;color:white;padding:6px 12px">Trailer a disponibilizar</span>'}</div>
+    <div class="two sec" style="grid-template-columns:minmax(0,340px) minmax(0,1fr)">
+      <div class="img r-2x3 poster">${scene(f.s,f.p)}<span class="label">Academia do Cinema apresenta</span><div><div class="pt">${f.t}</div><p class="label mt16" style="opacity:.8">${f.f} · ${f.y}</p></div></div>
+      <div class="stack" style="gap:40px">
+        <div class="stack"><span class="label gray">${f.y} · ${f.f}</span><h1>${f.t}</h1><p class="lead">Sinopse oficial em preparação.</p></div>
+        <div><div class="stitle" style="margin-bottom:24px"><span class="label">Ficha técnica</span></div><div class="sheet">${[['Direção','A confirmar'],['Roteiro','A confirmar'],['Produção','Academia do Cinema'],['Fotografia','A confirmar'],['Montagem','A confirmar'],['Som','A confirmar'],['Duração',f.f.split('·')[1]],['Formato','Digital · 2.39:1'],['Classificação','Livre']].map(r=>`<div><span class="label gray">${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div></div>
+        <div class="two" style="gap:40px">
+          <div><div class="stitle" style="margin-bottom:20px"><span class="label">Premiações</span></div><div class="list">${['Premiações a confirmar'].map(a=>`<div style="grid-template-columns:1fr"><span>${a}</span></div>`).join('')}</div></div>
+          <div><div class="stitle" style="margin-bottom:20px"><span class="label">Créditos</span></div><div class="sheet" style="grid-template-columns:1fr 1fr">${[['Elenco','A confirmar'],['Assistência de direção','A confirmar'],['Direção de arte','A confirmar'],['Trilha','A confirmar']].map(r=>`<div><span class="label gray">${r[0]}</span><b style="font-size:16px">${r[1]}</b></div>`).join('')}</div></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+  <section class="sec"><div class="wrap">${stitle('Mais filmes','<a href="#filmes" class="tlink">Ver catálogo</a>')}
+    <div class="cards c4">${films.filter(x=>x.id!==f.id).slice(0,4).map(x=>`<a class="card" href="#filme-${x.id}">${img(x.s,x.p,'r-2x3')}<div class="row"><h3>${x.t}</h3><span class="gray">${x.y}</span></div></a>`).join('')}</div></div></section>`;
+}
+
+function locadora(){
+  return `<section class="feature">${img('equip','orange')}<div class="shade"></div><div class="info"><div class="wrap" style="grid-template-columns:minmax(0,1fr) auto">
+    <div class="stack"><span class="label">Locadora</span><h1>Equipamento de set para filmar já.</h1></div>
+    <a href="#pedido" data-scroll="pedido" class="btn solid">Fazer pedido</a></div></div></section>
+  <div class="wrap" style="padding-top:18px">${crumbs([['Início','inicio'],['Locadora','locadora']])}</div>
+  <section class="sec"><div class="wrap two">
+    <div class="stack"><span class="label gray">Por que existe</span><h2>Filmar não pode depender de ter câmera.</h2></div>
+    <p class="lead" style="align-self:end">A locadora dá acesso ao mesmo equipamento usado nos cursos, a preço acessível, para alunos, ex-alunos e produtoras independentes. Alunos matriculados têm condições especiais.</p>
+  </div></section>
+  <section class="sec tight" style="padding-top:0"><div class="wrap">
+    ${stitle('Catálogo',tabs(['Todos','Câmeras','Lentes','Iluminação','Áudio','Acessórios'],'data-filter="equip"'))}
+    <div class="cards c4" id="equip">${equipment.map(e=>`<div class="card eq" data-tags="Todos|${e[0]}">${img('equip',e[4],'r-1')}<span class="label gray">${e[0]}</span><div class="row"><h3>${e[1]}</h3></div><p>${e[2]}</p><span class="status ${e[3]?'ok-s':'out'}">${e[3]?'Disponível':'Locado até 20 nov'}</span></div>`).join('')}</div>
+  </div></section>
+  <section class="sec dark"><div class="wrap">
+    ${stitle('Como locar')}
+    <div class="steps">${[['Escolha e consulte','Envie o pedido com as datas de retirada e devolução.'],['Envie os documentos','A equipe confirma a disponibilidade e pede documentos e caução.'],['Retire e filme','Retirada na sede, com conferência do kit e orientação de uso.']].map((s,i)=>`<div><span class="n">0${i+1}</span><h3>${s[0]}</h3><p class="gray">${s[1]}</p></div>`).join('')}</div>
+    <div class="stitle mt64"><div class="left"><h2>Exigências</h2></div></div>
+    <div class="req">${[['Documentação',['Documento com foto','Comprovante de residência','CNPJ e contrato social, para produtoras']],['Caução',['Valor definido por equipamento','Devolvida na entrega do kit conferido']],['Termo de responsabilidade',['Assinado na retirada','Cobre danos, perdas e atrasos','Regras de uso e transporte']]].map(r=>`<div><h3>${r[0]}</h3><ul class="gray">${r[1].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>
+  </div></section>
+  <section class="sec" id="pedido"><div class="wrap two">
+    <div class="stack"><span class="label gray">Contato direto</span><h2>Monte seu pedido</h2><div class="clist mt24"><div><span class="label gray">WhatsApp da locadora</span><b><a href="tel:+5561985654763">(61) 98565-4763</a></b></div><div><span class="label gray">E-mail</span><b>locadora@dominio.com.br</b></div><div><span class="label gray">Retirada</span><b>Seg. a sex. · 9h às 18h</b></div></div></div>
+    <form class="f" data-form style="align-self:end"><div class="r2"><label for="l-nome"><span>Nome ou produtora</span><input id="l-nome" required></label><label for="l-mail"><span>E-mail</span><input id="l-mail" type="email" required></label></div>
+      <label for="l-eq"><span>Equipamentos</span><textarea id="l-eq" rows="2" placeholder="Ex.: Blackmagic Pocket 6K, kit de lentes"></textarea></label>
+      <div class="r2"><label for="l-ret"><span>Retirada</span><input id="l-ret" type="date"></label><label for="l-dev"><span>Devolução</span><input id="l-dev" type="date"></label></div>
+      <button type="submit" class="btn black" style="width:max-content">Enviar pedido</button><div class="ok" role="status">Pedido registrado neste protótipo. No site publicado, ele segue para a equipe da locadora.</div></form>
+  </div></section>`;
+}
+
+function talentosPage(){
+  return phead('Talentos','Ex-alunos e profissionais formados pela Academia, prontos para o seu próximo set.',[['Início','inicio'],['Talentos','talentos']])+`
+  <section class="sec tight" style="padding-top:0"><div class="wrap">
+    <div style="margin-bottom:32px">${tabs(['Todas as funções','Direção','Roteiro','Fotografia','Som','Arte','Produção','Montagem'],'data-filter="talents"')}</div>
+    <div class="cards c4" id="talents">${talents.map(t=>`<a class="card" href="#talento-${t[0]}" data-tags="Todas as funções|${t[2]}">${img('retrato',t[3],'r-3x4')}<div class="row"><h3>${t[1]}</h3><span class="gray" style="font-size:16px">${t[2]}</span></div></a>`).join('')}</div>
+  </div></section>
+  <section class="sec violet"><div class="wrap two" style="align-items:end"><h2 class="h1">Precisa de equipe para um projeto?</h2><div class="stack" style="justify-items:start"><p class="lead">A coordenação indica profissionais por função, agenda e perfil do projeto.</p><a href="#contato" class="btn solid">Falar com a coordenação</a></div></div></section>`;
+}
+function talento(id){
+  const t=talents.find(x=>x[0]===id)||talents[0];
+  return `<section class="sec tight"><div class="wrap">${crumbs([['Início','inicio'],['Talentos','talentos'],[t[1],'talento-'+t[0]]])}
+    <div class="two mt40" style="grid-template-columns:minmax(0,5fr) minmax(0,7fr)">
+      ${img('retrato',t[3],'r-3x4')}
+      <div class="stack" style="gap:36px;align-content:end">
+        <div class="stack"><span class="label gray">${t[2]}</span><h1>${t[1]}</h1><p class="lead">Mini bio: formação na Academia, funções que exerce, tipo de projeto em que atua e o que busca agora.</p></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="#talento-${t[0]}" class="btn">Currículo PDF</a><a href="#talento-${t[0]}" class="btn">Portfólio</a><a href="#contato" class="btn black">Contratar</a></div>
+      </div>
+    </div></div></section>
+  <section class="sec dark"><div class="wrap">${stitle('Videoreel')}<div style="position:relative">${img('set',t[3],'r-21')}</div></div></section>
+  <section class="sec"><div class="wrap">${stitle('Filmes da Academia','','Participações')}<div class="cards c4">${films.slice(0,4).map(f=>`<a class="card" href="#filme-${f.id}">${img(f.s,f.p,'r-2x3')}<div class="row"><h3>${f.t}</h3><span class="gray">${f.y}</span></div><p>${t[2]}</p></a>`).join('')}</div></div></section>`;
+}
+
+function blog(){
+  const [p,...r]=posts;
+  return phead('Blog','Notícias, bastidores e festival.',[['Início','inicio'],['Blog','blog']])+`
+  <section class="sec tight" style="padding-top:0"><div class="wrap">
+    <a class="card two" href="#artigo-${p.id}" style="align-items:end;margin-bottom:clamp(48px,5vw,80px)">${img(p.s,p.p,'r-3x2')}<div class="stack"><span class="label gray">${p.tg} · ${p.d}</span><h2>${p.t}</h2><p class="lead gray">${p.x}</p><span class="tlink" style="width:max-content">Ler matéria</span></div></a>
+    <div class="cards c3">${r.map(x=>`<a class="card" href="#artigo-${x.id}">${img(x.s,x.p,'r-3x2')}<span class="label gray">${x.tg} · ${x.d}</span><h3>${x.t}</h3><p>${x.x}</p></a>`).join('')}</div>
+  </div></section>`;
+}
+function artigo(id){
+  const p=posts.find(x=>x.id===id)||posts[0];
+  return `<section class="sec tight"><div class="wrap">
+    <div class="article">${crumbs([['Início','inicio'],['Blog','blog'],[p.tg,'blog']])}<span class="label gray">${p.tg} · ${p.d} · 5 min de leitura</span><h1>${p.t}</h1><p class="lead gray">${p.x}</p></div>
+    <div class="mt40">${img(p.s,p.p,'r-21')}</div>
+    <div class="article mt64">
+      <p>Primeiro parágrafo da matéria: o que aconteceu, quando e quem participou. Os textos do blog seguem o tom da Academia, próximo e direto, com detalhes de set que só quem estava lá conhece.</p>
+      <p>Segundo parágrafo com contexto: o curso, a turma, o desafio técnico ou artístico e as decisões tomadas pela equipe.</p>
+      <p class="pull">“Filmar às 5 da manhã foi a única forma de ter a cidade vazia e a luz que a gente queria.”</p>
+      <h2 class="h3" style="font-size:32px">Como foi o set</h2>
+      <p>Relato do dia de filmagem, equipamentos usados e o papel de cada função.</p>
+      <figure>${img('claquete','gray','r-3x2')}<figcaption class="label gray">Legenda da foto com nomes e funções no set.</figcaption></figure>
+      <p>Fechamento com o próximo passo: exibição, festival ou abertura de turma.</p>
+      <div class="tags">${['Curso','Bastidores','Festival','Fotografia'].map(t=>`<span>${t}</span>`).join('')}</div>
+    </div></div></section>`;
+}
+function contato(){
+  return phead('Contato','Dúvidas sobre cursos, locação, parcerias ou imprensa.',[['Início','inicio'],['Contato','contato']])+`
+  <section class="sec tight" style="padding-top:0"><div class="wrap two">
+    <div class="stack" style="gap:40px">
+      <div class="clist"><div><span class="label gray">E-mail institucional</span><b><a href="mailto:contato@academiadocinema.com.br">contato@academiadocinema.com.br</a></b></div><div><span class="label gray">Telefone</span><b><a href="tel:+5561985654763">(61) 98565-4763</a></b></div><div><span class="label gray">Endereço</span><b>Brasília, Distrito Federal</b></div><div><span class="label gray">Redes</span><b><a href="https://linktr.ee/academiadocinema" target="_blank" rel="noopener">Canais da Academia</a></b></div></div>
+      ${img('sala','gray','r-16x9','Brasília · Distrito Federal')}
+    </div>
+    <form class="f" data-form style="align-self:start">
+      <div class="r2"><label for="c-nome"><span>Nome</span><input id="c-nome" required></label><label for="c-mail"><span>E-mail</span><input id="c-mail" type="email" required></label></div>
+      <label for="c-ass"><span>Assunto</span><select id="c-ass"><option>Cursos</option><option>Locadora</option><option>Talentos e contratação</option><option>Parcerias e patrocínio</option><option>Imprensa</option></select></label>
+      <label for="c-msg"><span>Mensagem</span><textarea id="c-msg" rows="5"></textarea></label>
+      <button type="submit" class="btn black" style="width:max-content">Enviar mensagem</button><div class="ok" role="status">Mensagem registrada neste protótipo. No site publicado, ela chega ao e-mail institucional.</div>
+    </form>
+  </div></section>`;
+}
+
+/* ---------- router ---------- */
+const routes={inicio:home,cursos,filmes,locadora,talentos:talentosPage,blog,contato};
+const app=document.getElementById('app');let timer;
+function render(){
+  const h=(location.hash||'#inicio').slice(1);
+  if(['inscricao','pedido'].includes(h))return;
+  let html,area=h;
+  if(routes[h])html=routes[h]();
+  else if(h.startsWith('curso-')){html=curso(h.slice(6));area='cursos'}
+  else if(h.startsWith('filme-')){html=filme(h.slice(6));area='filmes'}
+  else if(h.startsWith('talento-')){html=talento(h.slice(8));area='talentos'}
+  else if(h.startsWith('artigo-')){html=artigo(h.slice(7));area='blog'}
+  else{html=home();area='inicio'}
+  SID=0;app.innerHTML=html;
+  document.body.classList.toggle('home',area==='inicio');
+  document.querySelectorAll('.menu a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+area));
+  document.getElementById('menu').classList.remove('open');document.getElementById('burger').setAttribute('aria-expanded','false');
+  window.scrollTo(0,0);bind();
+}
+function bind(){
+  clearInterval(timer);
+  const slides=[...document.querySelectorAll('.hero .slide')],dots=[...document.querySelectorAll('.hero .dots button')];
+  if(slides.length){let i=0;const go=n=>{i=n;slides.forEach((s,k)=>s.classList.toggle('on',k===n));dots.forEach((d,k)=>d.classList.toggle('on',k===n))};
+    dots.forEach(d=>d.onclick=()=>go(+d.dataset.s));
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>go((i+1)%slides.length),7000);}
+  document.querySelectorAll('[data-rail]').forEach(b=>b.onclick=()=>{const r=document.getElementById(b.dataset.rail);r.scrollBy({left:+b.dataset.dir*r.clientWidth*.8,behavior:'smooth'})});
+  document.querySelectorAll('form[data-form]').forEach(form=>{
+    const fields=Array.from(form.querySelectorAll('input,select,textarea'));
+    const course=courses.find(c=>'#curso-'+c.id===location.hash);
+    const subjects={'i-nome':'Consulta sobre o curso '+(course?.name||''),'l-nome':'Consulta de disponibilidade para locação','n-mail':'Interesse em novas turmas','c-nome':'Contato com a Academia'};
+    const subject=subjects[fields[0]?.id]||'Contato com a Academia';
+    form.querySelector('button[type=submit]').textContent='Preparar e-mail';
+    form.onsubmit=event=>{
+      event.preventDefault();
+      const message=fields.map(field=>(field.labels?.[0]?.querySelector('span')?.textContent||field.id)+': '+field.value).join('\n');
+      location.href='mailto:contato@academiadocinema.com.br?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(message);
+      const status=form.querySelector('.ok')||form.parentElement.querySelector('.ok');
+      status.textContent='Conclua o envio no seu aplicativo de e-mail. Você também pode escrever para contato@academiadocinema.com.br.';
+      status.classList.add('show');
+    };
+  });
+  document.querySelectorAll('[data-scroll]').forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById(a.dataset.scroll).scrollIntoView({behavior:'smooth'})});
+  const gt=document.getElementById('gtabs');
+  if(gt)gt.onclick=e=>{const b=e.target.closest('button');if(!b)return;gt.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('#gallery figure').forEach(f=>f.style.display=(b.dataset.v==='Tudo'||f.dataset.cat===b.dataset.v)?'':'none')};
+  document.querySelectorAll('[data-filter]').forEach(t=>t.onclick=e=>{const b=e.target.closest('button');if(!b)return;t.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('#'+t.dataset.filter+'>*').forEach(c=>c.style.display=c.dataset.tags.split('|').includes(b.dataset.v)?'':'none')});
+}
+const burger=document.getElementById('burger');
+burger.onclick=()=>{const m=document.getElementById('menu');m.classList.toggle('open');burger.setAttribute('aria-expanded',m.classList.contains('open'))};
+window.addEventListener('hashchange',render);render();
+</script>
+</body>
+</html>
